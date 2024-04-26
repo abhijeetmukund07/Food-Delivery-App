@@ -1,0 +1,55 @@
+### user registration
+POST http://localhost:4000/user-api/user
+Content-Type: application/json
+
+{
+    "userType" : "user",
+    "username" : "abhi",
+    "email" : "abhijeet@mail.com",
+    "password" : "12345"
+}
+
+
+### restaurant registration
+POST http://localhost:4000/client/user
+Content-Type: application/json
+
+{
+    "userType" : "restaurant",
+    "username" : "paradise",
+    "email" : "contact@paradise.com",
+    "password" : "12345"
+}
+
+
+### user login (Working properly: Yes (tested))
+POST http://localhost:4000/user-api/login
+Content-Type: application/json
+
+{
+    "userType" : "user",
+    "username" : "abhi",
+    "password" : "12345"
+}
+
+### restaurant login (Working properly: Yes (tested))
+POST http://localhost:4000/client/login
+Content-Type: application/json
+
+{
+    "userType" : "restaurant",
+    "username" : "swagathgrand",
+    "password" : "12345"
+}
+
+### Get all menu (By Client) (Working: Yes)
+GET  http://localhost:4000/client/menu/1713879189151
+
+
+### Delete a menu item (Tested: OK)
+POST http://localhost:4000/client/menu/remove
+Content-Type: application/json
+
+{
+    "id": "662a5d3c429c88f5baf0c24b"
+}
