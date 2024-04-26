@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ClientAdd.css";
 import { assets } from "../../assets/admin_assets/assets";
 import { useForm } from "react-hook-form";
@@ -11,10 +11,13 @@ function ClientAdd() {
   } = useForm();
 
   let [image, setImage] = useState(null);
-  let [preview, setPreview] = useState(null);
+  let [preview, setPreview] = useState();
 
   async function handleFormSubmit(menuObj) {
+    console.log(menuObj);
+    delete menuObj.image;
     const formData = new FormData();
+    formData.append("menuObj",JSON.stringify(menuObj))
     formData.append("image", image);
     // console.log(formData.get('name'));
     let res = await axios.post("http://localhost:4000/client/add-item", formData);
@@ -26,29 +29,42 @@ function ClientAdd() {
   }
 
   function handleFileChange(e) {
+    console.log("handleFileChange Entered");
     setImage(e.target.files[0]);
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    console.log(preview);
+    console.log(image);
   }
+
+  useEffect(() => {
+    if (image) {
+      const fileReader = new FileReader();
+      fileReader.onload = (event) => {
+        const { result } = event.target;
+        setPreview(result);
+      };
+      fileReader.readAsDataURL(image);
+    }
+  }, [image]);
 
   return (
     <div className="client-add">
       <form
         action=""
         className="custom-form flex-col p-3 form"
-        onSubmit={handleSubmit(handleFormSubmit)}>
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
         <div className="add-img-upload flex-col">
           <p>Upload Image</p>
           <label htmlFor="image">
-            <img src={preview ? preview : assets.upload_area} alt="" />
+            <img className="menu-preview-img" src={preview ? preview : assets.upload_area} alt="" />
           </label>
           <input
             type="file"
-            onChange={handleFileChange}
+            accept="image/*"
             id="image"
             hidden
             className="form-control-file"
             {...register("image", { required: true })}
+            onChange={handleFileChange}
           />
         </div>
 
@@ -71,7 +87,8 @@ function ClientAdd() {
             rows="6"
             placeholder="Write content here"
             className="form-control"
-            {...register("desc", { required: true })}></textarea>
+            {...register("desc", { required: true })}
+          ></textarea>
         </div>
 
         <div className="add-category-price">
@@ -80,7 +97,8 @@ function ClientAdd() {
             <select
               name="category"
               className="form-select"
-              {...register("category", { required: true })}>
+              {...register("category", { required: true })}
+            >
               <option value="Starters">Starters</option>
               <option value="Rolls">Rolls</option>
               <option value="Sandwich">Sandwich</option>

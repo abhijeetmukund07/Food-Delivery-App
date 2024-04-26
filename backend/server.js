@@ -2,8 +2,8 @@
 
 // Import dependencies
 const exp = require("express");
-const path = require("path");
 const cors = require("cors");
+const path = require("path");
 const mongoClient = require("mongodb").MongoClient;
 require("dotenv").config(); //it adds the .env file to process object. To access env variables, process.env.key
 
@@ -12,7 +12,7 @@ const app = exp();
 //Use body parser middleware
 app.use(exp.json());
 // use cors to link frontend and backend
-// app.use(cors())
+app.use(cors())
 
 //mongodb connection
 mongoClient

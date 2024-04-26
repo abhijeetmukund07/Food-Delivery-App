@@ -42,9 +42,11 @@ clientApp.post("/login", expressAsyncHandler(loginUserOrRestaurant));
 //Add Menu item
 clientApp.post("/add-item", upload.single("image"), async (req, res) => {
   let image_filename = `${req.file.filename}`;
-  req.body.image_filename = image_filename;
+  let menuObj = JSON.parse(req.body.menuObj);
+
+  menuObj.image_filename = image_filename;
   // console.log(req.body) //comment out to debug
-  let responseFromDb = await menuCollection.insertOne(req.body);
+  let responseFromDb = await menuCollection.insertOne(menuObj);
   // console.log(responseFromDb)
   res.send({ message: "Menu item added successfully", statusCode: 6 });
 });
@@ -54,9 +56,7 @@ clientApp.get(
   "/menu/:restaurantId",
   expressAsyncHandler(async (req, res) => {
     let restaurantId = req.params.restaurantId;
-    const menuList = await menuCollection
-      .find({ restaurantId: restaurantId })
-      .toArray();
+    const menuList = await menuCollection.find({ restaurantId: restaurantId }).toArray();
     res.send({ message: "all menu", statusCode: 7, payload: menuList });
   })
 );
@@ -73,14 +73,12 @@ clientApp.post(
     // fs.unlink(path.join(__dirname, "../Uploads/${menuObj.}"))
     const delResponse = await menuCollection.deleteOne({ _id: objectId });
     console.log(delResponse);
-    if(delResponse.acknowledged === true & delResponse.deletedCount===1){
-      res.send({message:'menu item removed',statusCode:'8'})
-    }else{
-      res.send({message:'some error occured while deleting the menu item', statusCode: 9})
+    if ((delResponse.acknowledged === true) & (delResponse.deletedCount === 1)) {
+      res.send({ message: "menu item removed", statusCode: "8" });
+    } else {
+      res.send({ message: "some error occured while deleting the menu item", statusCode: 9 });
     }
-
-    }
-  )
+  })
 );
 
 module.exports = clientApp;
