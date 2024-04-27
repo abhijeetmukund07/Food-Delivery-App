@@ -9,6 +9,7 @@ import ClientAdd from "./ClientPages/ClientAdd/ClientAdd";
 import ClientOrders from "./ClientPages/ClientOrders/ClientOrders";
 import ClientList from "./ClientPages/ClientList/ClientList";
 import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 // import Login from "./components/Login/Login";
 const App = () => {
   let browserRouter = createBrowserRouter([
@@ -21,13 +22,13 @@ const App = () => {
           element:<Home/>
         },
         {
-          path: '/signup',
+          path: '/register',
           element:<Register/>
         },
-        // {
-        //   path: '/signin',
-        //   element: <Login/>
-        // }
+        {
+          path:'/login',
+          element:<Login/>
+        }
       ]
 
     },
@@ -35,10 +36,6 @@ const App = () => {
       path:'/client',
       element: <ClientRootLayout/>,
       children:[
-        {
-            path:'signup',
-            element:<Register/>
-        },
         {
           path: 'add',
           element:<ClientAdd/>

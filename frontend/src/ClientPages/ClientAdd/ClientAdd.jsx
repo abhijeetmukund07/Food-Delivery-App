@@ -3,11 +3,13 @@ import "./ClientAdd.css";
 import { assets } from "../../assets/admin_assets/assets";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-toastify";
 function ClientAdd() {
   let {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   let [image, setImage] = useState(null);
@@ -17,12 +19,15 @@ function ClientAdd() {
     console.log(menuObj);
     delete menuObj.image;
     const formData = new FormData();
-    formData.append("menuObj",JSON.stringify(menuObj))
+    formData.append("menuObj", JSON.stringify(menuObj));
     formData.append("image", image);
     // console.log(formData.get('name'));
     let res = await axios.post("http://localhost:4000/client/add-item", formData);
     if (res.data.statusCode === 6) {
-      console.log("Menu Added Succesfully", res);
+      toast.success(res.data.message);
+      setPreview(null);
+      setImage(null);
+      reset();
     } else {
       console.log("There was some problem in adding manu item");
     }
