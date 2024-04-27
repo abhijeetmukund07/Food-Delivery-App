@@ -1,6 +1,10 @@
 import React from "react";
 import "./Login.css";
 import { useForm } from "react-hook-form";
+import {userLoginThunk} from '../../redux/userLoginSlice'
+import {useSelector,useDispatch} from 'react-redux'
+import { useEffect } from "react";
+import {useNavigate,Link} from 'react-router-dom'
 function Login() {
   let {
     register,
@@ -8,12 +12,31 @@ function Login() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
   function handleFormSubmit(userCred) {
     console.log(userCred);
+    const loginActionObj = userLoginThunk(userCred);
+    dispatch(loginActionObj);
   }
+
+  const {isPending,currentUser,errorStatus,errorMessage,loginStatus} = useSelector(state=>state.userLogin)
+
+   useEffect(()=>{
+    if(currentUser.userType==='user'){
+      navigate('/')
+    }else if(currentUser.userType==='restaurant'){
+      navigate(`/client/${currentUser.username}`)
+    }
+  },[loginStatus])
+
 
   return (
     <div className="register w-100 ">
+          {/* {errorStatus===true&& toast.error(errorMessage)} */}
+          {errorStatus===true&&<p className="text-center fs-4 text-danger">{errorMessage.message}</p>}
       <div className="form-container container w-50 mt-2 mb-3 p-5">
         <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
           <h1 className="registerTitle text-center mt-3">Login</h1>
@@ -46,7 +69,7 @@ function Login() {
                 {...register("userType", { required: true })}
               />
               <label htmlFor="restaurant" className="form-check-label">
-                Register
+                Restaurant
               </label>
             </div>
             {errors.userType?.type === "required" && (
@@ -92,6 +115,7 @@ function Login() {
             Login
           </button>
         </form>
+        <p className=" mt-2 text-center">Do not have an account? <Link className="text-primary" to="/register">Sign Up</Link></p>
       </div>
     </div>
   );

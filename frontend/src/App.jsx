@@ -33,7 +33,7 @@ const App = () => {
 
     },
     {
-      path:'/client',
+      path:'/client/:restaurantName',
       element: <ClientRootLayout/>,
       children:[
         {

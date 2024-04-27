@@ -38,8 +38,8 @@ Content-Type: application/json
 
 {
     "userType" : "restaurant",
-    "username" : "swagathgrand",
-    "password" : "12345"
+    "username" : "swagathgradsdsdnd",
+    "password" : "123dsds45"
 }
 
 ### Get all menu (By Client) (Working: Yes)

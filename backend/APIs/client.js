@@ -74,7 +74,7 @@ clientApp.post(
     const delResponse = await menuCollection.deleteOne({ _id: objectId });
     console.log(delResponse);
     if ((delResponse.acknowledged === true) & (delResponse.deletedCount === 1)) {
-      res.send({ message: "menu item removed", statusCode: "8" });
+      res.send({ message: "menu item removed", statusCode: 8 });
     } else {
       res.send({ message: "some error occured while deleting the menu item", statusCode: 9 });
     }

@@ -27,7 +27,7 @@ const createUserOrRestaurant = async (req, res) => {
   if (user.userType === "restaurant") {
     //find user by username
     let dbUser = await restaurantsCollectionObj.findOne({
-      username: user.username,
+      username: user.username
     });
     //if user already exists
     if (dbUser != null) {
@@ -39,6 +39,7 @@ const createUserOrRestaurant = async (req, res) => {
   //now,
   //since the following steps 1 and 2 are common to both users and restaurants, we are placing it outside any if block which checks the type of user
 
+
   //1.hash password
   const hashedPassword = await bcryptjs.hash(user.password, 4);
   //2. replace plain password with hashed password
@@ -49,7 +50,7 @@ const createUserOrRestaurant = async (req, res) => {
     //insert into users collection
     let responseFromDB = await usersCollectionObj.insertOne(user);
     // console.log(responseFromDB)  ******uncomment to test/debug*****
-    res.send({ message: "New User Created", statusbar: 2 });
+    res.send({ message: "New User Created", statusCode: 2 });
   } else if (user.userType === "restaurant") {
     //insert into users collection
     user.restaurantId = Date.now();
@@ -85,7 +86,7 @@ const loginUserOrRestaurant = async (req, res) => {
             const signedToken = jwt.sign({username: dbUser.username},process.env.SECRET_KEY,{expiresIn:'1d'})
             delete dbUser.password
             // send token, dbUser as response
-            res.send({message:'Login Succesful',statusCode:6,token:signedToken,user:dbUser})
+            res.send({message:'Login Succesful',statusCode:200,token:signedToken,user:dbUser})
         }
         
     }
@@ -107,7 +108,7 @@ const loginUserOrRestaurant = async (req, res) => {
             const signedToken = jwt.sign({username: dbUser.username},process.env.SECRET_KEY,{expiresIn:'1d'})
             delete dbUser.password
             // send token, dbUser as response
-            res.send({message:'Login Succesful',statusCode:6,token:signedToken,user:dbUser})
+            res.send({message:'Login Succesful',statusCode:200,token:signedToken,user:dbUser})
         }
     }
   }

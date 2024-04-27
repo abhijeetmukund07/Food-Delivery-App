@@ -9,7 +9,9 @@ const [active, setActive] = useState('home')
   return (
   <div className="container w-100">
     <div className="navbar navbar-expand-sm navbar-custom">
-      <img src={assets.logo} alt="Logo" className="logo" />
+      <NavLink to="/">
+        <img src={assets.logo} alt="Logo" className="logo" />
+      </NavLink>
 
       <ul className="nav custom-navbar-menu">
         <li onClick={()=>setActive('home')} className={active==="home"?"nav-item  custom-navbar-link-active":"nav-item"} >
@@ -38,8 +40,9 @@ const [active, setActive] = useState('home')
             <img src={assets.basket_icon} alt="" />
             <div className="custom-navbar-cart-indicator"></div>
           </div>
-
-          <button className=" custom-navbar-btn">sign in</button>
+          <NavLink to="/login">
+            <button className=" custom-navbar-btn">sign in</button>
+          </NavLink>
       </div>
     </div>
   </div>)

@@ -1,6 +1,13 @@
+Register.jsx
+
 import React from "react";
 import "./Register.css";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useState,useEffect } from "react"
+import { toast } from "react-toastify";
 function Register() {
   let {
     register,
@@ -8,10 +15,44 @@ function Register() {
     formState: { errors },
   } = useForm();
 
-  function handleFormSubmit(userCred) {
-    console.log(userCred);
-  }
+  const navigate = useNavigate()
+  const [err,setErr] = useState('')
+  const [registrationStatus,setRegistrationStaus] = useState(false)
 
+  async function handleFormSubmit(data) {
+    console.log(data);
+        // console.log(data) comment out to debug if needed
+    //http post request to user-api
+    if(data.userType === 'user'){
+      // if user is registering
+      let res = await axios.post('http://localhost:4000/user-api/user',data)
+      console.log(res.data)
+      if(res.data.statusCode === 2){
+        setRegistrationStaus(true)
+        toast.success('Registration Succesful')
+          navigate('/login')
+      }
+      else if(res.data.statusCode !==2){
+          setErr(res.data.message)
+          toast.error(res.data.message)
+      }
+
+  }else{
+      //if restaurant is registering
+      let res = await axios.post('http://localhost:4000/client/user',data)
+      console.log(res)
+      if(res.data.statusCode === 3){
+        setRegistrationStaus(true)
+        toast.success('Registration Succesful')
+          navigate('/login')
+      }
+      else if(res.data.statusCode!==3){
+          setErr(res.data.message)
+          toast.error(res.data.message)
+      }
+  }
+  }
+  
   return (
     <div className="register w-100 ">
       <div className="form-container container w-50 mt-2 mb-3 p-5">
@@ -46,7 +87,7 @@ function Register() {
                 {...register("userType", { required: true })}
               />
               <label htmlFor="restaurant" className="form-check-label">
-                Register
+                Restaurant
               </label>
             </div>
             {errors.userType?.type === "required" && (
@@ -103,6 +144,7 @@ function Register() {
             Register
           </button>
         </form>
+        <p className=" mt-2 text-center">Already have an account? <Link className="text-primary" to="/login">Sign In</Link></p>
       </div>
     </div>
   );
