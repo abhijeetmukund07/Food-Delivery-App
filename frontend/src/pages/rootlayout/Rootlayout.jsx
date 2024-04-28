@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 const Rootlayout = () => {
   return <div>
-    <ToastContainer autoClose={3000} />
+    <ToastContainer autoClose={1500} limit={2} />
     <Navbar/>
     {/* <hr /> */}
     <div className="userOutlet">

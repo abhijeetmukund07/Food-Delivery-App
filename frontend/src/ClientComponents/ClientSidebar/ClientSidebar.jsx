@@ -2,12 +2,10 @@ import React from "react";
 import './ClientSidebar.css'
 import { assets } from "../../assets/admin_assets/assets";
 import { NavLink } from "react-router-dom";
-import {useSelector} from 'react-redux'
 
 function ClientSidebar() {
+  let restaurantName = sessionStorage.getItem('restaurantName')
 
-    const {currentUser} = useSelector(state=>state.userLogin)
-    const restaurantName = currentUser.restaurantName
   return (
     <div className="client-sidebar">
         <div>

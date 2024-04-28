@@ -55,8 +55,10 @@ clientApp.post("/add-item", upload.single("image"), async (req, res) => {
 clientApp.get(
   "/menu/:restaurantId",
   expressAsyncHandler(async (req, res) => {
-    let restaurantId = req.params.restaurantId;
-    const menuList = await menuCollection.find({ restaurantId: restaurantId }).toArray();
+    let restaurantId = Number(req.params.restaurantId);
+    // console.log(typeof(restaurantId)) //comment out to debug
+    const menuList = await menuCollection.find({restaurantId: restaurantId }).toArray();
+    console.log(menuList)
     res.send({ message: "all menu", statusCode: 7, payload: menuList });
   })
 );

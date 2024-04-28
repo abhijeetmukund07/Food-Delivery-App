@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function ClientRootLayout() {
   return (
     <div>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={1500} limit={2} />
       <ClientNavbar />
       <hr />
       <div className="client-app-contents">

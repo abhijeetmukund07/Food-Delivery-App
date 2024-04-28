@@ -1,0 +1,36 @@
+.client-list-table-format{
+    width: 80vw;
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr;
+    align-self: center;
+    gap: 10px;
+    padding:12px 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #cacaca;
+    font-size: 13px;
+}
+
+.client-list-table-format .title{
+    background-color: #f9f9f9;
+}
+
+.client-list-menu-item-image{
+    width: 50px;
+    height: 50px;
+}
+
+.delete-cursor{
+    cursor: pointer;
+}
+
+@media (max-width:600px) {
+    .client-list-table-format{
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 15px;
+    }
+
+    .client-list-table-format.title{
+        display: none;
+    }
+}

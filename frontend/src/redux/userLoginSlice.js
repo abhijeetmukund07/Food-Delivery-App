@@ -17,6 +17,10 @@ export const userLoginThunk = createAsyncThunk("userLogin", async (userCred, thu
   // if login is sucess
   if (res.data.statusCode === 200) {
     sessionStorage.setItem("token", res.data.token);
+    if(res.data.user.userType==='restaurant'){
+      sessionStorage.setItem('restaurantName',res.data.user.restaurantName)
+      sessionStorage.setItem('restaurantId',res.data.user.restaurantId)
+    }
     return res.data;
   } else {
     console.log(res.data)
@@ -41,6 +45,9 @@ export const userLoginSlice = createSlice({
       state.errorMessage = "";
       state.loginStatus = false;
     },
+    setUserLogin: (state, action) => {
+      state.currentUser = action.payload;
+    }
   },
   extraReducers: (builder) =>
     builder
@@ -67,4 +74,4 @@ export const userLoginSlice = createSlice({
 export default userLoginSlice.reducer;
 
 //export action creator functions
-export const { resetState } = userLoginSlice.actions;
+export const { resetState, setUserLogin } = userLoginSlice.actions;

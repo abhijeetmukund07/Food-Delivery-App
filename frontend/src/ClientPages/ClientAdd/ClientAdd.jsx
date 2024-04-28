@@ -4,7 +4,6 @@ import { assets } from "../../assets/admin_assets/assets";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 function ClientAdd() {
   let {
     register,
@@ -15,11 +14,14 @@ function ClientAdd() {
 
   let [image, setImage] = useState(null);
   let [preview, setPreview] = useState();
-  const {currentUser} = useSelector(state=>state.userLogin)
+  // const {currentUser} = useSelector(state=>state.userLogin)
+  let restaurantName = sessionStorage.getItem('restaurantName')
+  let restaurantId = sessionStorage.getItem('restaurantId')
+
   async function handleFormSubmit(menuObj) {
     console.log(menuObj);
-    menuObj.restaurantName = currentUser.username
-    menuObj.restaurantId = currentUser.restaurantId
+    menuObj.restaurantName = restaurantName
+    menuObj.restaurantId = Number(restaurantId)
     delete menuObj.image;
     const formData = new FormData();
     formData.append("menuObj", JSON.stringify(menuObj));
