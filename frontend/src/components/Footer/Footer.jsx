@@ -40,8 +40,8 @@ function Footer() {
         <div className="footer-content-right">
             <h2>Get in Touch</h2>
             <ul>
-                <li>+91 99999-55555</li>
-                <li>contact@pomato.com</li>
+                <li><a href="tel: +919999955555 ">+91 99999-55555</a></li>
+                <li><a href="mailto: contact@pomato.com?subject=Raise Query">contact@pomato.com</a></li>
             </ul>
         </div>
       </div>

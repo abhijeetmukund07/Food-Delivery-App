@@ -44,14 +44,14 @@ function ClientList() {
 
   return (
     <div className="client-list add flex-col">
-        <p className="lead fs-3">All Foods List</p>
+        <p className="text-center lead fs-2">All Foods List</p>
         <div className="client-list-table">
           <div className="client-list-table-format title">
             <b>Image</b>
             <b>Name</b>
             <b>Category</b>
             <b>Price</b>
-            <b>Action</b>
+            <b>Remove</b>
           </div>
           {
             list.map((item,index)=>{
