@@ -1,0 +1,20 @@
+.restaurants-display{
+    margin-top: 30px;
+}
+
+.restaurants-display h2{
+    font-size: max(2ve,24px);
+    font-weight: 600;
+}
+
+.restaurants-display-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+    margin-top: 30px;
+    gap: 30px;
+    row-gap: 50px;
+}
+.restaurant-card{
+    cursor: pointer;
+}
+

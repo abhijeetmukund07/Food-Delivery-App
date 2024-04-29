@@ -6,6 +6,7 @@ import { useState } from "react";
 import './Home.css'
 import { assets } from "../../assets/frontend_assets/assets";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
+import RestaurantsDisplay from "../../components/RestaurantsDisplay/RestaurantsDisplay";
 function Home() {
 let [menuSelection,setMenuSelection] = useState('All')
 let [restaurantSelection,setRestaurantSelection] = useState('All')
@@ -17,7 +18,8 @@ let [restaurantSelection,setRestaurantSelection] = useState('All')
         <hr />
         <ExploreRestaurants restaurantSelection = {restaurantSelection} setRestaurantSelection = {setRestaurantSelection} />
         <hr />
-        <FoodDisplay menuSelection= {menuSelection} />
+        {/* <FoodDisplay menuSelection= {menuSelection} /> */}
+        <RestaurantsDisplay/>
     </div>
   );
 }

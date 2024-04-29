@@ -11,6 +11,7 @@ import ClientList from "./ClientPages/ClientList/ClientList";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Cart from "./pages/Cart/Cart";
+import FoodDisplay from "./components/FoodDisplay/FoodDisplay";
 // import Login from "./components/Login/Login";
 const App = () => {
   let browserRouter = createBrowserRouter([
@@ -33,6 +34,10 @@ const App = () => {
         {
           path: '/cart',
           element:<Cart/>
+        },
+        {
+          path: '/menu/:restaurantName',
+          element:<FoodDisplay/>
         }
         
       ]
