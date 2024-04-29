@@ -58,7 +58,7 @@ clientApp.get(
     let restaurantId = Number(req.params.restaurantId);
     // console.log(typeof(restaurantId)) //comment out to debug
     const menuList = await menuCollection.find({restaurantId: restaurantId }).toArray();
-    console.log(menuList)
+    // console.log(menuList)
     res.send({ message: "all menu", statusCode: 7, payload: menuList });
   })
 );
