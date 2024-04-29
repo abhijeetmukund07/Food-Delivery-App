@@ -10,6 +10,7 @@ import ClientOrders from "./ClientPages/ClientOrders/ClientOrders";
 import ClientList from "./ClientPages/ClientList/ClientList";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import Cart from "./pages/Cart/Cart";
 // import Login from "./components/Login/Login";
 const App = () => {
   let browserRouter = createBrowserRouter([
@@ -28,7 +29,12 @@ const App = () => {
         {
           path:'/login',
           element:<Login/>
+        },
+        {
+          path: '/cart',
+          element:<Cart/>
         }
+        
       ]
 
     },

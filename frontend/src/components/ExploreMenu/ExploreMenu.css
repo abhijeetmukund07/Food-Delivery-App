@@ -44,3 +44,9 @@
   padding: 2px;
   transition: ease;
 }
+
+@media (max-width:1050px) {
+  .explore-menu h1{
+    font-size: medium;
+  }
+}

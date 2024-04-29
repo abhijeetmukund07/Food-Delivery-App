@@ -4,7 +4,7 @@ import { assets } from "../../assets/frontend_assets/assets";
 import { Link } from "react-router-dom";
 function Footer() {
   return (
-    <div className="footer">
+    <div className="footer" id="footer">
       <div className="footer-content">
         <div className="footer-content-left ">
           <img src={assets.logo} alt="Logo"/>
@@ -46,7 +46,7 @@ function Footer() {
         </div>
       </div>
         <hr />
-        <p>Copyright 2024 ©️ pomato.com All Rights Reserved</p>
+        <p className="footer-copyright">Copyright 2024 ©️ pomato.com All Rights Reserved</p>
     </div>
   );
 }
