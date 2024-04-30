@@ -13,8 +13,8 @@ function FoodDisplay() {
   const { isPending, errorStatus, errorMessage, restaurantMenuList } = useSelector(
     (state) => state.foodOrder
   );
-  const restaurantState = useLocation().state;
-  console.log(restaurantState);
+  const restaurantState = useLocation().state; //Try to find a workaround. If I come back to food-diaplay page from cart page, we wont get cards displayed
+  // console.log(restaurantState);
   // const { staticFoodList } = useSelector((state) => state.userOrder);
   // console.log(staticFoodList);
 
@@ -22,7 +22,7 @@ function FoodDisplay() {
     // Dispatch fetchRestaurantThunk action when component mounts
     dispatch(fetchMenuOfRestaurantThunk(restaurantState));
   }, [dispatch]); // Dispatch only once when component mounts
-  console.log("restaurantMenu List: ", restaurantMenuList.payload);
+  // console.log("restaurantMenu List: ", restaurantMenuList.payload);
 
   if (isPending) {
     return <div>Loading...</div>;

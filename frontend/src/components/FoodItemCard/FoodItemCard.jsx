@@ -3,15 +3,13 @@ import React, { useEffect } from "react";
 import './FoodItemCard.css';
 import { assets } from "../../assets/frontend_assets/assets";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from '../../redux/userOrderSlice';
-
+// import { addToCart, removeFromCart } from '../../redux/userOrderSlice';
+import {addToCart,removeFromCart} from '../../redux/foodOrderSlice'
 function FoodItemCard({ id, name, price, description, image }) {
-    const { cartItems } = useSelector(state => state.userOrder);
+    const { cartItems } = useSelector(state => state.foodOrder);
     const dispatch = useDispatch();
-    console.log(image)
-    useEffect(() => {
-        console.log(cartItems);
-    }, [cartItems]);
+    // console.log(image)
+    
 
     return( 
         <div className="food-item">

@@ -5,7 +5,7 @@ export const fetchRestaurantThunk = createAsyncThunk(
   "fetch-restaurants",
   async (unuser_arg, thunkApi) => {
     let res = await axios.get("http://localhost:4000/user-api/all-restaurants");
-    console.log(res.data);
+    // console.log(res.data);
 
     if (res.data.statusCode === 12) {
       return res.data;
@@ -19,9 +19,9 @@ export const fetchMenuOfRestaurantThunk = createAsyncThunk(
   "fetch-restaurants-menu",
   async (restaurantObj, thunkApi) => {
     let restaurantId = restaurantObj.restaurantId;
-    console.log(restaurantId)
+    // console.log(restaurantId)
     let res = await axios.get(`http://localhost:4000/user-api/menu/${restaurantId}`);
-    console.log(res.data);
+    // console.log(res.data);
 
     if (res.data.statusCode === 14) {
       return res.data;
@@ -40,6 +40,7 @@ export const foodOrderSlice = createSlice({
     restaurantList: [],
     restaurantMenuList: [],
     cartItems: {},
+    cartTotal: 0,
   },
   reducers: {
     resetState: (state) => {
@@ -49,6 +50,7 @@ export const foodOrderSlice = createSlice({
       state.restaurantList = [];
       state.restaurantMenuList = [];
       state.cartItems = {};
+      state.cartTotal = 0;
     },
 
     addToCart: (state, action) => {
@@ -62,6 +64,16 @@ export const foodOrderSlice = createSlice({
         state.cartItems[itemId] -= 1;
       }
     },
+    updateCartTotal: (state,action) =>{
+      if(Object.keys(state.cartItems).length===0){
+        state.cartTotal = 0
+      }else{
+
+        state.cartTotal = action.payload + 40 //40 for delivery fee;
+      }
+      console.log('cartTotal Now: (from redux) ',state.cartTotal)
+    }
+    
   },
   extraReducers: (builder) => {
     builder
@@ -101,4 +113,4 @@ export const foodOrderSlice = createSlice({
 });
 
 export default foodOrderSlice.reducer;
-export const { resetState } = foodOrderSlice.reducer;
+export const { resetState,addToCart,removeFromCart,updateCartTotal } = foodOrderSlice.actions;

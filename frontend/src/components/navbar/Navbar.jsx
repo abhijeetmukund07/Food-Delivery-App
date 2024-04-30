@@ -57,7 +57,9 @@ const Navbar = () => {
           <img src={assets.search_icon} alt="" />
 
           <div className="custom-navbar-basket-icon">
-            <img src={assets.basket_icon} alt="" />
+            <NavLink to='/cart'>
+              <img src={assets.basket_icon} alt="" />
+            </NavLink>
             <div className="custom-navbar-cart-indicator"></div>
           </div>
 

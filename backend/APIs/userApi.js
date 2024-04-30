@@ -47,3 +47,4 @@ userApp.get('/menu/:restaurantId',expressAsyncHandler(async(req,res)=>{
     res.send({message:'Menu of the restaurant',statusCode:14,payload:menuObj})
   }
 }))
+
