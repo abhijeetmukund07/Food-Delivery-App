@@ -26,13 +26,14 @@ function RestaurantsDisplay() {
     return <div>Error: {errorMessage}</div>;
   }
 
+
   // Render the list of restaurants if available
   return (
     <div className="restaurants-display" id="restaurants-display">
       <h2>Top Restaurants Near You</h2>
       <div className="restaurants-display-list">
         {restaurantList && restaurantList.map((restaurant) => (
-          <div key={restaurant.restaurantId} className="restaurant-card" onClick={()=>navigate(`/menu/${restaurant.restaurantName}`)}>
+          <div key={restaurant.restaurantId} className="restaurant-card" onClick={()=>navigate(`/menu/${restaurant.restaurantName}`,{state:restaurant})}>
             <RestaurantsCard
             id={restaurant.restaurantId}
             name={restaurant.restaurantName}

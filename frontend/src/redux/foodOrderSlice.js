@@ -19,6 +19,7 @@ export const fetchMenuOfRestaurantThunk = createAsyncThunk(
   "fetch-restaurants-menu",
   async (restaurantObj, thunkApi) => {
     let restaurantId = restaurantObj.restaurantId;
+    console.log(restaurantId)
     let res = await axios.get(`http://localhost:4000/user-api/menu/${restaurantId}`);
     console.log(res.data);
 

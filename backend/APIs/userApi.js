@@ -25,7 +25,8 @@ module.exports = userApp;
 //Yet to add: Token Verification Middleware
 userApp.get('/all-restaurants',expressAsyncHandler(async (req,res)=>{ 
   //get all restaurants
-  const restaurantObj = await restaurantsCollection.find().toArray()
+  const restaurantObj = await restaurantsCollection.find({}, { projection: { password: 0 } }).toArray();
+
   if(!restaurantObj){
     res.send({message:'Some Error Occured in retrieving restaurants',statusCode:11})
   }else{

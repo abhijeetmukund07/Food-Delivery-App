@@ -8,7 +8,7 @@ import { addToCart, removeFromCart } from '../../redux/userOrderSlice';
 function FoodItemCard({ id, name, price, description, image }) {
     const { cartItems } = useSelector(state => state.userOrder);
     const dispatch = useDispatch();
-
+    console.log(image)
     useEffect(() => {
         console.log(cartItems);
     }, [cartItems]);
@@ -16,7 +16,7 @@ function FoodItemCard({ id, name, price, description, image }) {
     return( 
         <div className="food-item">
             <div className="food-item-img-container">
-                <img src={image} alt="" className="food-item-image" />
+                <img src={image} alt="food pic" className="food-item-image" />
                 {!cartItems[id] ? 
                     <img src={assets.add_icon_white} className="add" onClick={() => dispatch(addToCart(id))} />
                     :
@@ -33,7 +33,7 @@ function FoodItemCard({ id, name, price, description, image }) {
                     <p>{name}</p>
                 </div>
                 <p className="food-item-desc">{description}</p>
-                <p className="food-item-price">Rs.{price}</p>
+                <p className="food-item-price lead fs-5">Rs.{price}</p>
             </div>
         </div>
     );
