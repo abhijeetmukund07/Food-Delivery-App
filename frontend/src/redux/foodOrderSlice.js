@@ -64,16 +64,31 @@ export const foodOrderSlice = createSlice({
         state.cartItems[itemId] -= 1;
       }
     },
-    updateCartTotal: (state,action) =>{
-      if(Object.keys(state.cartItems).length===0){
-        state.cartTotal = 0
-      }else{
+    // updateCartTotal: (state,action) =>{
+    //   if(Object.keys(state.cartItems).length===0){
+    //     state.cartTotal = 0
+    //   }else{
 
-        state.cartTotal = action.payload + 40 //40 for delivery fee;
+    //     state.cartTotal = action.payload + 40 //40 for delivery fee;
+    //   }
+    //   console.log('cartTotal Now: (from redux) ',state.cartTotal)
+    // }
+    updateCartTotal: (state, action) => {
+      let currentTotal = 0;
+      for (const itemId in state.cartItems) {
+        const quantity = state.cartItems[itemId];
+        const item = state.restaurantMenuList.payload.find((product) => product._id === itemId);
+        if (item) {
+          currentTotal += item.price * quantity;
+        }
       }
-      console.log('cartTotal Now: (from redux) ',state.cartTotal)
-    }
-    
+      console.log("CartTotal in slice:", state.cartTotal);
+      if (currentTotal === 0) {
+        state.cartTotal = currentTotal + 0; // Add delivery fee
+      } else {
+        state.cartTotal = currentTotal + 40;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,8 +124,8 @@ export const foodOrderSlice = createSlice({
         state.errorStatus = true;
         state.errorMessage = action.error.message;
       });
-  }
+  },
 });
 
 export default foodOrderSlice.reducer;
-export const { resetState,addToCart,removeFromCart,updateCartTotal } = foodOrderSlice.actions;
+export const { resetState, addToCart, removeFromCart, updateCartTotal } = foodOrderSlice.actions;

@@ -26,7 +26,8 @@ function Cart() {
 
   useEffect(() => {
     // Dispatch the updated cartTotal to Redux
-    dispatch(updateCartTotal(cartTotal));
+    dispatch(updateCartTotal());
+    // console.log('CartTotal in cart.jsx page:',cartTotal)
   }, [cartTotal]);
 
   function getCartTotal() {
@@ -94,7 +95,7 @@ function Cart() {
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>{cartTotal+40}</b>
+              <b>{cartTotal===0?0:cartTotal+40}</b>
             </div>
           </div>
           <button onClick={()=>navigate('/order')} className="w-25">PROCEED TO CHECKOUT</button>

@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "userType" : "user",
-    "username" : "abhi",
-    "email" : "abhijeet@mail.com",
+    "username" : "navaneeth@1234",
+    "email" : "navaneeth@gmail.com",
     "password" : "12345"
 }
 
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 {
     "userType" : "user",
-    "username" : "abhi",
+    "username" : "navaneeth@1234",
     "password" : "12345"
 }
 
@@ -59,3 +59,4 @@ GET http://localhost:4000/user-api/all-restaurants
 
 ### Get menu by restauantId
 GET http://localhost:4000/user-api/menu/1714285311493
+

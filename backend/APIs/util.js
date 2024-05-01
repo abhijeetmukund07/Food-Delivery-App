@@ -86,8 +86,6 @@ const loginUserOrRestaurant = async (req, res) => {
           expiresIn: "1d",
         });
         delete dbUser.password;
-        delete dbUser._id;
-        delete dbUser.username;
         // send token, dbUser as response
         res.send({ message: "Login Succesful", statusCode: 200, token: signedToken, user: dbUser });
       }
