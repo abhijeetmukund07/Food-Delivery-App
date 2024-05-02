@@ -24,11 +24,15 @@ mongoClient
     const usersCollection = foodDelDbObj.collection("users");
     const restaurantsCollection = foodDelDbObj.collection("restaurants");
     const menuCollection = foodDelDbObj.collection("menu");
+    const ordersCollection = foodDelDbObj.collection("orders");
+
 
     //share collection objects with api's
     app.set("usersCollection", usersCollection);
     app.set("restaurantsCollection", restaurantsCollection);
     app.set("menuCollection", menuCollection);
+    app.set("ordersCollection", ordersCollection);
+
 
     //confirmation
     console.log("Database connection established");

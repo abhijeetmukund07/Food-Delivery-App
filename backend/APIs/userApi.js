@@ -14,6 +14,7 @@ userApp.use((req, res, next) => {
   usersCollection = req.app.get("usersCollection");
   restaurantsCollection = req.app.get("restaurantsCollection");
   menuCollection = req.app.get("menuCollection");
+  ordersCollection = req.app.get("ordersCollection");
   next();
 });
 
@@ -95,4 +96,16 @@ userApp.post('/cart/get',VerifyToken,expressAsyncHandler(async(req,res)=>{
   delete cartRes.password
   let cartData = cartRes.cartData || {}
   res.send({message:'Cart details',success:true,statusCode:30,payload:cartData})
+}))
+
+
+// placeOrder
+userApp.post('/placeorder',VerifyToken,expressAsyncHandler(async(req,res)=>{
+  const orderData = req.body
+  let placeOrderRes = await ordersCollection.insertOne({orderData})
+  if(placeOrderRes.acknowledged===true){
+    res.send({message:'Order Placed',statusCode:31})
+  }else{
+    res.send({message:'Some Problem Occured while placing order',statusCode:32})
+  }
 }))

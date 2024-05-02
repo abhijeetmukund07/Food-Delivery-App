@@ -81,6 +81,10 @@ export const foodOrderSlice = createSlice({
       }
       // console.log("CartTotal in slice:", state.cartTotal);
     },
+    resetCart: (state) =>{
+      state.cartItems = {};
+      state.cartTotal = 0;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -124,4 +128,4 @@ export const foodOrderSlice = createSlice({
 });
 
 export default foodOrderSlice.reducer;
-export const { resetState, addToCart, removeFromCart, updateCartTotal } = foodOrderSlice.actions;
+export const { resetState, addToCart, removeFromCart, updateCartTotal,resetCart } = foodOrderSlice.actions;

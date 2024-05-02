@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, updateCartTotal } from "../../redux/foodOrderSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cartItems, restaurantMenuList, cartTotal } = useSelector((state) => state.foodOrder);
-
+  const token = sessionStorage.getItem('token')
   useEffect(() => {
     // Dispatch the updated cartTotal to Redux
     dispatch(updateCartTotal());
@@ -69,7 +70,15 @@ function Cart() {
               <b>{cartTotal}</b>
             </div>
           </div>
-          <button onClick={() => navigate("/order")} className="w-25">
+          <button onClick={()=>{
+            if(!token){
+              toast.error('Login To Checkout')
+            }else if(Object.keys(cartItems).length===0){
+              toast.error('No Items in cart')
+            }else{
+              navigate('/checkout')
+            }
+          }} className="w-25">
             PROCEED TO CHECKOUT
           </button>
         </div>

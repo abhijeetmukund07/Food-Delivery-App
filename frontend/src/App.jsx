@@ -13,6 +13,7 @@ import Login from "./components/Login/Login";
 import Cart from "./pages/Cart/Cart";
 import FoodDisplay from "./components/FoodDisplay/FoodDisplay";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
+import Orders from "./pages/Orders/Orders";
 // import Login from "./components/Login/Login";
 const App = () => {
   let browserRouter = createBrowserRouter([
@@ -37,12 +38,16 @@ const App = () => {
           element:<Cart/>
         },
         {
-          path:'/order',
+          path:'/checkout',
           element:<PlaceOrder/>
         },
         {
           path: '/menu/:restaurantName',
           element:<FoodDisplay/>
+        },
+        {
+          path: '/my-orders',
+          element:<Orders/>
         }
         
       ]

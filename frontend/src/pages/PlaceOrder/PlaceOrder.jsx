@@ -1,8 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./PlaceOrder.css";
-
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { resetCart } from "../../redux/foodOrderSlice";
 function PlaceOrder() {
   const {
     register,
@@ -10,10 +13,47 @@ function PlaceOrder() {
     formState: { errors },
   } = useForm();
 
-  const { cartTotal } = useSelector((state) => state.foodOrder);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let token = sessionStorage.getItem("token"); // this line is used in axiosWithToken function. that functio is also given just below
+  const axiosWithToken = axios.create({
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const { cartTotal, cartItems, restaurantMenuList } = useSelector((state) => state.foodOrder);
+  const restaurantId = restaurantMenuList.restaurantId;
+  async function placeOrder(addressData) {
+    // console.log(orderDetails);
 
-  function handleFormSubmit(orderDetails) {
-    console.log(orderDetails);
+    let orderItems = [];
+    restaurantMenuList.map((item) => {
+      if (cartItems[item._id] > 0) {
+        let itemInfo = { ...item };
+        itemInfo.quantity = cartItems[item._id];
+        orderItems.push(itemInfo);
+      }
+    });
+    let orderData = {
+      orderId: Date.now(),
+      restaurantId: restaurantId,
+      address: addressData,
+      items: orderItems,
+      amount: cartTotal,
+      paymentStatus: true, //lets assume it to be true until we ingegrate payment gateway such as razorpay, stripe etc.
+      status: "Order Placed"
+    };
+    if (Object.keys(cartItems).length === 0) {
+      toast.error("No Items In Cart");
+    } else {
+      let res = await axiosWithToken.post("http://localhost:4000/user-api/placeorder", orderData);
+      console.log(res.data);
+      if (res.data.statusCode === 31) {
+        toast.success(res.data.message);
+        dispatch(resetCart());
+        navigate("/my-orders");
+      } else {
+        toast.error(res.data.message);
+      }
+    }
   }
 
   // Function to get the first error message
@@ -28,11 +68,7 @@ function PlaceOrder() {
 
   return (
     <div className="place-order-container">
-      <form
-        action=""
-        className="place-order form"
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+      <form action="" className="place-order form" onSubmit={handleSubmit(placeOrder)}>
         <div className="place-order-left">
           <p className="title form-label">Delivery Information</p>
           <div className="multi-fields">
@@ -128,7 +164,10 @@ function PlaceOrder() {
       {/* Render only the first error message */}
       <div className="error-messages">
         {getFirstErrorMessage() && (
-          <p className="lead text-danger"><sup className="text-danger">*</sup>{getFirstErrorMessage()}</p>
+          <p className="lead text-danger">
+            <sup className="text-danger">*</sup>
+            {getFirstErrorMessage()}
+          </p>
         )}
       </div>
     </div>
