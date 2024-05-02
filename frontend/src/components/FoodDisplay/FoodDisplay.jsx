@@ -5,8 +5,7 @@ import { fetchMenuOfRestaurantThunk } from "../../redux/foodOrderSlice";
 import { useSelector, useDispatch } from "react-redux";
 import FoodItemCard from "../FoodItemCard/FoodItemCard";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-//
+
 
 function FoodDisplay() {
   const dispatch = useDispatch();
@@ -37,8 +36,8 @@ function FoodDisplay() {
     <div className="food-display" id="food-display">
       <h2></h2>
       <div className="food-display-list">
-        {restaurantMenuList.payload &&
-          restaurantMenuList.payload.map((item, index) => {
+        {restaurantMenuList &&
+          restaurantMenuList.map((item, index) => {
             return (
               <FoodItemCard
                 key={index}
@@ -55,16 +54,3 @@ function FoodDisplay() {
   );
 }
 export default FoodDisplay;
-
-// import React from "react";
-// import "./FoodDisplay.css";
-// import { useEffect } from "react";
-// import { useLocation } from "react-router-dom";
-
-// function FoodDisplay() {
-//   const restaurantState = useLocation().state;
-//   console.log(restaurantState)
-//   return <div>FoodDisplay</div>;
-// }
-
-// export default FoodDisplay;

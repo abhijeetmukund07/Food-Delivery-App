@@ -2,21 +2,37 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import "./PlaceOrder.css";
+
 function PlaceOrder() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const { cartTotal } = useSelector((state) => state.foodOrder);
 
   function handleFormSubmit(orderDetails) {
     console.log(orderDetails);
   }
 
+  // Function to get the first error message
+  const getFirstErrorMessage = () => {
+    for (const errorKey in errors) {
+      if (errors[errorKey]) {
+        return errors[errorKey].message;
+      }
+    }
+    return null;
+  };
+
   return (
     <div className="place-order-container">
-      <form action="" className="place-order form" onSubmit={handleSubmit(handleFormSubmit)}>
+      <form
+        action=""
+        className="place-order form"
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
         <div className="place-order-left">
           <p className="title form-label">Delivery Information</p>
           <div className="multi-fields">
@@ -24,26 +40,26 @@ function PlaceOrder() {
               className="form-control"
               type="text"
               placeholder="First Name"
-              {...register("firstName", { required: true })}
+              {...register("firstName", { required: "First Name is required" })}
             />
             <input
               className="form-control"
               type="text"
               placeholder="Last Name"
-              {...register("lastName", { required: true })}
+              {...register("lastName", { required: "Last Name is required" })}
             />
           </div>
           <input
             className="form-control"
             type="email"
             placeholder="Email Address"
-            {...register("email", { required: true })}
+            {...register("email", { required: "Email Address is required" })}
           />
           <input
             className="form-control"
             type="text"
             placeholder="Street"
-            {...register("street", { required: true })}
+            {...register("street", { required: "Street is required" })}
           />
 
           <div className="multi-fields">
@@ -51,13 +67,13 @@ function PlaceOrder() {
               className="form-control"
               type="text"
               placeholder="City"
-              {...register("city", { required: true })}
+              {...register("city", { required: "City is required" })}
             />
             <input
               className="form-control"
               type="text"
               placeholder="State"
-              {...register("state", { required: true })}
+              {...register("state", { required: "State is required" })}
             />
           </div>
 
@@ -66,20 +82,20 @@ function PlaceOrder() {
               className="form-control"
               type="text"
               placeholder="Pin Code"
-              {...register("pinCode", { required: true })}
+              {...register("pinCode", { required: "Pin Code is required" })}
             />
             <input
               className="form-control"
               type="text"
               placeholder="Country"
-              {...register("country", { required: true })}
+              {...register("country", { required: "Country is required" })}
             />
           </div>
           <input
             className="form-control"
             type="number"
             placeholder="Phone"
-            {...register("phone", { required: true })}
+            {...register("phone", { required: "Phone is required" })}
           />
         </div>
 
@@ -89,7 +105,7 @@ function PlaceOrder() {
             <div>
               <div className="cart-total-details">
                 <p>Subtotal</p>
-                <p>Rs. {cartTotal===0?0:cartTotal-40}</p>
+                <p>Rs. {cartTotal === 0 ? 0 : cartTotal - 40}</p>
               </div>
               <hr />
               <div className="cart-total-details">
@@ -102,12 +118,19 @@ function PlaceOrder() {
                 <b>Rs. {cartTotal}</b>
               </div>
             </div>
-            <button type="submit" onClick={() => navigate("/order")} className="w-50">
+            <button type="submit" className="w-50">
               PROCEED TO PAYMENT
             </button>
           </div>
         </div>
       </form>
+
+      {/* Render only the first error message */}
+      <div className="error-messages">
+        {getFirstErrorMessage() && (
+          <p className="lead text-danger"><sup className="text-danger">*</sup>{getFirstErrorMessage()}</p>
+        )}
+      </div>
     </div>
   );
 }

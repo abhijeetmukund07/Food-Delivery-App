@@ -1,48 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Cart.css";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, updateCartTotal } from "../../redux/foodOrderSlice";
-import { fetchMenuOfRestaurantThunk } from "../../redux/foodOrderSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function Cart() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { cartItems, restaurantMenuList } = useSelector((state) => state.foodOrder);
-  const foodItemList = restaurantMenuList.payload;
-  let [cartTotal, setCartTotal] = useState(0);
-  // console.log("food-item-list", foodItemList);
-  // console.log('restarantsMenuList',typeof(restaurantMenuList))
-
-  useEffect(() => {
-    dispatch(fetchMenuOfRestaurantThunk());
-  }, []); // Fetch menu data when component mounts
-
-  useEffect(() => {
-    getCartTotal();
-  }, [cartItems, restaurantMenuList]);
+  const { cartItems, restaurantMenuList, cartTotal } = useSelector((state) => state.foodOrder);
 
   useEffect(() => {
     // Dispatch the updated cartTotal to Redux
     dispatch(updateCartTotal());
-    // console.log('CartTotal in cart.jsx page:',cartTotal)
-  }, [cartTotal]);
-
-  function getCartTotal() {
-    let currentCartTotal = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = foodItemList.find((product) => product._id === item);
-        if (itemInfo) {
-          currentCartTotal += itemInfo.price * cartItems[item];
-        }
-      }
-    }
-    setCartTotal(currentCartTotal); // Move setting state outside the loop
-  }
-
+  }, [cartItems]);
 
   return (
     <div className="cart">
@@ -58,7 +29,7 @@ function Cart() {
         </div>
         <br />
         <hr />
-        {foodItemList.map((item, index) => {
+        {restaurantMenuList.map((item, index) => {
           if (cartItems[item._id] > 0) {
             return (
               <div key={index}>
@@ -85,20 +56,22 @@ function Cart() {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>{cartTotal}</p>
+              <p>{cartTotal === 0 ? 0 : cartTotal - 40}</p> {/*cartTotal is the toal including delivery fee. Hence minus 40*/}
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>{cartTotal===0?0:40}</p>
+              <p>{cartTotal === 0 ? 0 : 40}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>{cartTotal===0?0:cartTotal+40}</b>
+              <b>{cartTotal}</b>
             </div>
           </div>
-          <button onClick={()=>navigate('/order')} className="w-25">PROCEED TO CHECKOUT</button>
+          <button onClick={() => navigate("/order")} className="w-25">
+            PROCEED TO CHECKOUT
+          </button>
         </div>
       </div>
     </div>

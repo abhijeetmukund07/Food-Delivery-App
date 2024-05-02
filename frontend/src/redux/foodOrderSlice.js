@@ -64,30 +64,22 @@ export const foodOrderSlice = createSlice({
         state.cartItems[itemId] -= 1;
       }
     },
-    // updateCartTotal: (state,action) =>{
-    //   if(Object.keys(state.cartItems).length===0){
-    //     state.cartTotal = 0
-    //   }else{
 
-    //     state.cartTotal = action.payload + 40 //40 for delivery fee;
-    //   }
-    //   console.log('cartTotal Now: (from redux) ',state.cartTotal)
-    // }
     updateCartTotal: (state, action) => {
       let currentTotal = 0;
       for (const itemId in state.cartItems) {
         const quantity = state.cartItems[itemId];
-        const item = state.restaurantMenuList.payload.find((product) => product._id === itemId);
+        const item = state.restaurantMenuList.find((product) => product._id === itemId);
         if (item) {
           currentTotal += item.price * quantity;
         }
       }
-      console.log("CartTotal in slice:", state.cartTotal);
       if (currentTotal === 0) {
         state.cartTotal = currentTotal + 0; // Add delivery fee
       } else {
         state.cartTotal = currentTotal + 40;
       }
+      // console.log("CartTotal in slice:", state.cartTotal);
     },
   },
   extraReducers: (builder) => {
@@ -116,8 +108,12 @@ export const foodOrderSlice = createSlice({
         state.isPending = true;
       })
       .addCase(fetchMenuOfRestaurantThunk.fulfilled, (state, action) => {
+        console.log("Fetch menu of restaurant thunk from redux", action);
         state.isPending = false;
-        state.restaurantMenuList = action.payload;
+        //action obj contains type,meta and payload field where payload is the payload sent by api. 
+        //In that payload's payload field we have our actual menuList
+        state.restaurantMenuList = action.payload.payload; 
+        console.log('restuarantMenuList: ',state.restaurantMenuList)
       })
       .addCase(fetchMenuOfRestaurantThunk.rejected, (state, action) => {
         state.isPending = false;

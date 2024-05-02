@@ -3,9 +3,11 @@ import React, { useEffect } from "react";
 import './FoodItemCard.css';
 import { assets } from "../../assets/frontend_assets/assets";
 import { useSelector, useDispatch } from "react-redux";
-// import { addToCart, removeFromCart } from '../../redux/userOrderSlice';
 import {addToCart,removeFromCart} from '../../redux/foodOrderSlice'
+
+
 function FoodItemCard({ id, name, price, description, image }) {
+
     const { cartItems } = useSelector(state => state.foodOrder);
     const dispatch = useDispatch();
     // console.log(image)
@@ -20,7 +22,7 @@ function FoodItemCard({ id, name, price, description, image }) {
                     :
                     <div className="food-item-counter">
                         <img src={assets.remove_icon_red} alt="remove-icon" onClick={() => dispatch(removeFromCart(id))} />
-                        <p className="lead fs-5">{cartItems[id]}</p>
+                        <p className="lead fs-5">{cartItems[id]}</p> {/*cartItems[id] gives us the quantity*/ }
                         <img src={assets.add_icon_green} alt="add-icon" onClick={() => dispatch(addToCart(id))} />
                     </div>
                 }
