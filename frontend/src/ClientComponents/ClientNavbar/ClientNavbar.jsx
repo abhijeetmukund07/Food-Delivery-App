@@ -1,12 +1,12 @@
-import React from "react";
+import React,{useEffect} from "react";
 import './ClientNavbar.css'
 import {assets} from '../../assets/admin_assets/assets'
 import { NavLink } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
-import { resetState } from "../../redux/userLoginSlice";
+import { resetState,setLoginStatus } from "../../redux/userLoginSlice";
 function ClientNavbar() {
 
-  const {loginStatus,currentUser} = useSelector(state=>state.userLogin)
+  const {loginStatus} = useSelector(state=>state.userLogin)
   const dispatch = useDispatch()
   function logOut(){
     //remove token from session storage
@@ -16,6 +16,12 @@ function ClientNavbar() {
     //dispatch the resetActionObj to redux store to reset the userLogin State
     dispatch(resetActionObj)
   }
+
+    
+  useEffect(()=>{
+    dispatch(setLoginStatus())
+  },[loginStatus])
+  
 
   return (
     <div className="client-navbar">

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./navbar.css";
 import { assets } from "../../assets/frontend_assets/assets";
 import { NavLink } from "react-router-dom";
-import { resetState } from "../../redux/userLoginSlice";
+import { resetState,setLoginStatus } from "../../redux/userLoginSlice";
 import { useSelector, useDispatch } from "react-redux";
 
+
 const Navbar = () => {
-  const { loginStatus, currentUser } = useSelector((state) => state.userLogin);
+
+  const { loginStatus} = useSelector((state) => state.userLogin);
   const dispatch = useDispatch();
   function logOut() {
     //remove token from session storage
@@ -16,7 +18,11 @@ const Navbar = () => {
     //dispatch the resetActionObj to redux store to reset the userLogin State
     dispatch(resetActionObj);
   }
-
+  
+  useEffect(()=>{
+    dispatch(setLoginStatus())
+  },[loginStatus])
+  
   const [active, setActive] = useState("home");
 
   return (
@@ -54,7 +60,7 @@ const Navbar = () => {
         </ul>
 
         <div className="custom-navbar-right">
-          <img src={assets.search_icon} alt="" />
+          {/* <img src={assets.search_icon} alt="" /> */}
 
           <div className="custom-navbar-basket-icon">
             <NavLink to='/cart'>
@@ -67,13 +73,15 @@ const Navbar = () => {
             <NavLink to="/login">
               <button className=" custom-navbar-btn">Sign in</button>
             </NavLink>
-          ) : (
-            <NavLink to="/">
-              <button className=" custom-navbar-btn" onClick={logOut}>
-                Sign Out
-              </button>
-            </NavLink>
-          )}
+          ) : 
+          <div className="navbar-profile">
+              <img src={assets.profile_icon} alt="" />
+                <ul className="nav-profile-dropdown">
+                  <NavLink to='/my-orders' className="navlink"><img src={assets.bag_icon} alt="" /><p>Orders</p></NavLink>
+                  <hr />
+                  <NavLink className="navlink" onClick={()=>logOut()}><img src={assets.logout_icon} alt="" /><p>Logout</p></NavLink>
+                </ul>
+          </div>}
         </div>
       </div>
     </div>

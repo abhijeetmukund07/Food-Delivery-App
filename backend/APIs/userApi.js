@@ -23,7 +23,6 @@ userApp.post("/user", expressAsyncHandler(createUserOrRestaurant));
 
 // user Login route
 userApp.post('/login',expressAsyncHandler(loginUserOrRestaurant))
-module.exports = userApp;
 
 //GET all restaurants.
 //Yet to add: Token Verification Middleware
@@ -109,3 +108,5 @@ userApp.post('/placeorder',VerifyToken,expressAsyncHandler(async(req,res)=>{
     res.send({message:'Some Problem Occured while placing order',statusCode:32})
   }
 }))
+
+module.exports = userApp;

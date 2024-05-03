@@ -52,7 +52,7 @@ export const foodOrderSlice = createSlice({
       state.cartItems = {};
       state.cartTotal = 0;
     },
-
+    
     addToCart: (state, action) => {
       const itemId = action.payload;
       state.cartItems[itemId] = (state.cartItems[itemId] || 0) + 1;
@@ -65,7 +65,7 @@ export const foodOrderSlice = createSlice({
       }
     },
 
-    updateCartTotal: (state, action) => {
+    updateCartTotal: (state) => {
       let currentTotal = 0;
       for (const itemId in state.cartItems) {
         const quantity = state.cartItems[itemId];

@@ -17,10 +17,11 @@ function PlaceOrder() {
   const dispatch = useDispatch();
   let token = sessionStorage.getItem("token"); // this line is used in axiosWithToken function. that functio is also given just below
   const axiosWithToken = axios.create({
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { authorization: `Bearer ${token}` },
   });
   const { cartTotal, cartItems, restaurantMenuList } = useSelector((state) => state.foodOrder);
   const restaurantId = restaurantMenuList.restaurantId;
+
   async function placeOrder(addressData) {
     // console.log(orderDetails);
 

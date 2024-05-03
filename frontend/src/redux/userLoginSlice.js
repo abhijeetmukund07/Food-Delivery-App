@@ -5,12 +5,12 @@ export const userLoginThunk = createAsyncThunk("userLogin", async (userCred, thu
   let res;
   if (userCred.userType === "user") {
     res = await axios.post("http://localhost:4000/user-api/login",userCred);
-    console.log(res)
+    // console.log(res)
   }
 
   if (userCred.userType === "restaurant") {
     res = await axios.post("http://localhost:4000/client/login", userCred);
-    console.log(res)
+    // console.log(res)
 
   }
 
@@ -23,7 +23,7 @@ export const userLoginThunk = createAsyncThunk("userLogin", async (userCred, thu
     }
     return res.data;
   } else {
-    console.log(res.data)
+    // console.log(res.data)
     return thunkApi.rejectWithValue(res.data);
   }
 });
@@ -47,6 +47,14 @@ export const userLoginSlice = createSlice({
     },
     setUserLogin: (state, action) => {
       state.currentUser = action.payload;
+    },
+    setLoginStatus: (state)=>{
+      let token = sessionStorage.getItem('token');
+      if(!token){
+        state.loginStatus = false
+      }else{
+        state.loginStatus = true
+      }
     }
   },
   extraReducers: (builder) =>
@@ -74,4 +82,4 @@ export const userLoginSlice = createSlice({
 export default userLoginSlice.reducer;
 
 //export action creator functions
-export const { resetState, setUserLogin } = userLoginSlice.actions;
+export const { resetState, setUserLogin,setLoginStatus } = userLoginSlice.actions;
