@@ -105,7 +105,7 @@ const loginUserOrRestaurant = async (req, res) => {
       } else {
         // password is valid.
         // Now generate token
-        const signedToken = jwt.sign({ username: dbUser.username }, process.env.SECRET_KEY, {
+        const signedToken = jwt.sign({ username: dbUser.username, restaurantId: dbUser.restaurantId,restaurantName: dbUser.restaurantname }, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
         delete dbUser.password;

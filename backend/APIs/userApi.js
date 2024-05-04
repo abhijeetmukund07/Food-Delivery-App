@@ -10,6 +10,7 @@ const { ObjectId } = require("mongodb");
 let usersCollection;
 let restaurantsCollection;
 let menuCollection;
+let ordersCollection
 userApp.use((req, res, next) => {
   usersCollection = req.app.get("usersCollection");
   restaurantsCollection = req.app.get("restaurantsCollection");
@@ -101,11 +102,23 @@ userApp.post('/cart/get',VerifyToken,expressAsyncHandler(async(req,res)=>{
 // placeOrder
 userApp.post('/placeorder',VerifyToken,expressAsyncHandler(async(req,res)=>{
   const orderData = req.body
-  let placeOrderRes = await ordersCollection.insertOne({orderData})
+  // console.log(orderData)
+  let placeOrderRes = await ordersCollection.insertOne(orderData)
   if(placeOrderRes.acknowledged===true){
     res.send({message:'Order Placed',statusCode:31})
   }else{
     res.send({message:'Some Problem Occured while placing order',statusCode:32})
+  }
+}))
+
+//fetch orders based on username
+userApp.get('/fetchorders',VerifyToken,expressAsyncHandler(async(req,res)=>{
+  const username = req.body.username
+  let ordersRes = await ordersCollection.find({username:username}).toArray()
+  if(ordersRes.length===0){
+    res.send({message:'No Orders Placed Yet',statusCode:33})
+  }else{
+    res.send({message:'All Orders',payload:ordersRes,statusCode:34})
   }
 }))
 

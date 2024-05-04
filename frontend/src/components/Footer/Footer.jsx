@@ -7,7 +7,7 @@ function Footer() {
     <div className="footer" id="footer">
       <div className="footer-content">
         <div className="footer-content-left ">
-          <img src={assets.logo} alt="Logo"/>
+          <img src={assets.pomatologoresize} className="pomato-logo-footer" alt="Logo"/>
           <p className="m-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero hic
           necessitatibus animi aliquid! Sint amet eum quidem est non expedita,
           numquam laboriosam cupiditate earum harum perspiciatis atque vero sunt
@@ -47,6 +47,8 @@ function Footer() {
       </div>
         <hr />
         <p className="footer-copyright">Copyright 2024 ©️ pomato.com All Rights Reserved</p>
+        <p className="footer-copyright">Developed by <a className="text-danger" href="https://github.com/dashboard">N.V Abhijeet Mukund </a></p>
+
     </div>
   );
 }

@@ -4,9 +4,15 @@ import {useState} from "react";
 import axios from 'axios'
 import {useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
+
 function ClientList() {
 
   const url = "http://localhost:4000"
+
+  let token = sessionStorage.getItem("token");
+  const axiosWithToken = axios.create({
+    headers: { authorization: `Bearer ${token}` },
+  });
 
   let restaurantName = sessionStorage.getItem('restaurantName')
   let restaurantId = sessionStorage.getItem('restaurantId')
@@ -27,7 +33,7 @@ function ClientList() {
 
   async function removeItem(menuId){
     console.log(menuId)
-    let delRes = await axios.post(`${url}/client/menu/remove`,{id:menuId})
+    let delRes = await axiosWithToken.post(`${url}/client/menu/remove`,{id:menuId})
     console.log('delete response: ',delRes.data)
     if(delRes.data.statusCode===8){
       toast.success(delRes.data.message)

@@ -7,17 +7,19 @@ const multer = require("multer");
 const fs = require("fs");
 const { ObjectId } = require("mongodb");
 const { createUserOrRestaurant, loginUserOrRestaurant } = require("./util");
+const VerifyToken = require("../Middlewares/VerifyToken");
 // initialize the express router
 const clientApp = exp.Router();
 
 // Get users and restaurantsCollection
 let usersCollection;
 let restaurantsCollection;
-
+let ordersCollection;
 clientApp.use((req, res, next) => {
   usersCollection = req.app.get("usersCollection");
   restaurantsCollection = req.app.get("restaurantsCollection");
   menuCollection = req.app.get("menuCollection");
+  ordersCollection = req.app.get("ordersCollection");
   next();
 });
 
@@ -40,7 +42,7 @@ clientApp.post("/user", expressAsyncHandler(createUserOrRestaurant));
 clientApp.post("/login", expressAsyncHandler(loginUserOrRestaurant));
 
 //Add Menu item
-clientApp.post("/add-item", upload.single("image"), async (req, res) => {
+clientApp.post("/add-item",VerifyToken,upload.single("image"), async (req, res) => {
   let image_filename = `${req.file.filename}`;
   let menuObj = JSON.parse(req.body.menuObj);
 
@@ -57,14 +59,14 @@ clientApp.get(
   expressAsyncHandler(async (req, res) => {
     let restaurantId = Number(req.params.restaurantId);
     // console.log(typeof(restaurantId)) //comment out to debug
-    const menuList = await menuCollection.find({restaurantId: restaurantId }).toArray();
+    const menuList = await menuCollection.find({ restaurantId: restaurantId }).toArray();
     // console.log(menuList)
     res.send({ message: "all menu", statusCode: 7, payload: menuList });
   })
 );
 
 clientApp.post(
-  "/menu/remove",
+  "/menu/remove",VerifyToken,
   expressAsyncHandler(async (req, res) => {
     //Get Object id from req.body
     const menuObjId = req.body.id;
@@ -82,5 +84,34 @@ clientApp.post(
     }
   })
 );
+
+// Get all orders
+clientApp.get(
+  "/all-orders",
+  VerifyToken,
+  expressAsyncHandler(async (req, res) => {
+    const restaurantId = Number(req.body.restaurantId);
+    console.log(restaurantId)
+    let dbRes = await ordersCollection.find({ restaurantId: restaurantId }).toArray();
+    console.log(dbRes)
+    if (dbRes.length === 0) {
+      res.send({ message: "No Orders Recieved Yet", statusCode: 35 });
+    } else {
+      res.send({ message: "All Recieved Orders", statusCode: 36, payload:dbRes });
+    }
+  })
+);
+
+clientApp.post('/status',VerifyToken,expressAsyncHandler(async(req,res)=>{
+  console.log('In status changer req handler')
+  const orderId = req.body.orderId;
+  const status= req.body.status;
+  const dbRes = await ordersCollection.updateOne({orderId:orderId},{$set:{status:status}})
+  if(dbRes.acknowledged===true || dbRes.modifiedCount===1){
+    res.send({message:'Order Status Modified',statusCode: 37})
+  }else{
+    res.send({message:'Some error occured in modifying order status',statusCode: 38})
+  }
+}))
 
 module.exports = clientApp;

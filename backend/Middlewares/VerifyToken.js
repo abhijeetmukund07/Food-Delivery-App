@@ -9,7 +9,14 @@ const VerifyToken = (req,res,next)=>{
         let token = bearerToken.split(' ')[1]
         try{
             let decodedToken = jwt.decode(token,process.env.SECRET_KEY)
+            console.log(decodedToken)
             req.body.username = decodedToken.username
+            if (decodedToken.restaurantId) {
+                req.body.restaurantId = decodedToken.restaurantId;
+            }
+            if (decodedToken.restaurantName) {
+                req.body.restaurantName = decodedToken.restaurantId;
+            }
             next()
         }catch(err){
             next(err)

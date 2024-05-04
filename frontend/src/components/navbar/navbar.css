@@ -95,10 +95,27 @@ transition: 0.2s;
   gap: 10px;
   cursor: pointer;
 }
+.navbar-user-name{
+  position: relative;
+  top: 10px;
+}
+
+.custom-navbar-cart-indicator{
+  position: relative;
+  top: -38px;
+  right: -33px;
+
+}
+
+.custom-navbar-basket-icon{
+  position: relative;
+  top: 22px;
+}
 
 @media (max-width: 1050px) {
   .navbar .logo{
-    width: 140px
+    width: 140px;
+    height:140px;
   }
 
   .custom-navbar-menu{

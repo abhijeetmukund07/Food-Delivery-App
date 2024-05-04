@@ -12,6 +12,12 @@ function ClientAdd() {
     reset,
   } = useForm();
 
+
+  let token = sessionStorage.getItem("token");
+  const axiosWithToken = axios.create({
+    headers: { authorization: `Bearer ${token}` },
+  });
+
   let [image, setImage] = useState(null);
   let [preview, setPreview] = useState();
   // const {currentUser} = useSelector(state=>state.userLogin)
@@ -27,7 +33,7 @@ function ClientAdd() {
     formData.append("menuObj", JSON.stringify(menuObj));
     formData.append("image", image);
     // console.log(formData.get('name'));
-    let res = await axios.post("http://localhost:4000/client/add-item", formData);
+    let res = await axiosWithToken.post("http://localhost:4000/client/add-item", formData);
     if (res.data.statusCode === 6) {
       toast.success(res.data.message);
       setPreview(null);

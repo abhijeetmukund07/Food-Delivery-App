@@ -20,8 +20,9 @@ function PlaceOrder() {
     headers: { authorization: `Bearer ${token}` },
   });
   const { cartTotal, cartItems, restaurantMenuList } = useSelector((state) => state.foodOrder);
-  const restaurantId = restaurantMenuList.restaurantId;
-
+  const restaurantId = restaurantMenuList[0].restaurantId;
+  console.log('restaurantMenuList:',restaurantMenuList)
+  console.log('restaurantId',restaurantId)
   async function placeOrder(addressData) {
     // console.log(orderDetails);
 
